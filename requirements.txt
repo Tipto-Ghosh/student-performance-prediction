@@ -14,4 +14,7 @@ notebook
 jupyterlab
 catboost
 xgboost
--e .
+python-dotenv
+mysql-connector-python
+pymysql
+# -e .
