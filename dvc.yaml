@@ -1,0 +1,9 @@
+stages:
+  data_ingestion:
+    cmd: dvc.yaml python src/components/data_ingestion.py
+    deps:
+    - src/components/data_ingestion.py
+    outs:
+    - artifacts/raw.csv
+    - artifacts/test.csv
+    - artifacts/train.csv
