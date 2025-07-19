@@ -205,3 +205,31 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Ignore DVC cache
+.dvc/cache/
+
+# Ignore data directories or model directories (tracked via .dvc)
+data/
+datasets/
+models/
+artifacts/*.pkl
+!artifacts/*.dvc
+
+# Ignore output folders if any
+outputs/
+results/
+
+# Ignore any temporary or log files
+*.log
+*.tmp
+
+# Ignore DVC temporary lock files (optional but safe)
+.dvc/tmp/
+
+# Ignore large files manually added (if any)
+*.h5
+*.pkl
+*.joblib
+*.pt
+*.onnx
