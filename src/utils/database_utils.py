@@ -5,7 +5,6 @@ from src.logger import logging
 import pandas as pd 
 from dotenv import load_dotenv
 import pymysql
-import pickle
 import numpy as np 
 
 # load the info of .env file
@@ -35,16 +34,3 @@ def read_sql_data() -> pd.DataFrame:
         raise CustomException(ex , sys)
 
 
-# save a pkl object as file
-def save_object(file_path , obj): 
-    try:
-        dir_path = os.path.dirname(file_path)
-        
-        os.makedirs(dir_path , exist_ok = True)
-        
-        with open(file_path , "wb") as file:
-            pickle.dump(obj , file)
-            
-    except Exception as e:
-        logging.error(f"Error to save object[object File: {file_path}]" , exc_info = True)
-        raise CustomException(e , sys)

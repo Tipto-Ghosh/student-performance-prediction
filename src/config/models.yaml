@@ -1,0 +1,11 @@
+Linear Regression: sklearn.linear_model.LinearRegression
+Lasso: sklearn.linear_model.Lasso
+Ridge: sklearn.linear_model.Ridge
+ElasticNet: sklearn.linear_model.ElasticNet
+K-Neighbors Regressor: sklearn.neighbors.KNeighborsRegressor
+Decision Tree: sklearn.tree.DecisionTreeRegressor
+Random Forest Regressor: sklearn.ensemble.RandomForestRegressor
+XGBRegressor: xgboost.XGBRegressor
+CatBoosting Regressor: catboost.CatBoostRegressor
+AdaBoost Regressor: sklearn.ensemble.AdaBoostRegressor
+Gradient Boosting Regressor: sklearn.ensemble.GradientBoostingRegressor

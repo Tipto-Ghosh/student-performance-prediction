@@ -1,0 +1,7 @@
+best_model_name: ElasticNet
+best_model_params:
+  alpha: 0.01
+  l1_ratio: 0.9
+  max_iter: 1000
+test_r2: 0.8807554619884935
+train_r2: 0.8742974597424238

@@ -4,7 +4,7 @@ import sys
 from src.exception import CustomException
 from src.logger import logging
 from src.config.data_ingestion_config import DataIngestionConfig 
-from src.utils import read_sql_data
+from src.utils.database_utils import read_sql_data
 import pandas as pd 
 from sklearn.model_selection import train_test_split
 

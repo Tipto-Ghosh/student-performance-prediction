@@ -1,0 +1,73 @@
+AdaBoost Regressor:
+  best_params:
+    learning_rate: 1.0
+    n_estimators: 200
+  test_r2: 0.8496247852595247
+  train_r2: 0.8530981937123696
+CatBoosting Regressor:
+  best_params:
+    depth: 4
+    iterations: 200
+    learning_rate: 0.05
+  test_r2: 0.8677820986407689
+  train_r2: 0.8876352778558434
+Decision Tree:
+  best_params:
+    criterion: squared_error
+    max_depth: 5
+    min_samples_split: 10
+  test_r2: 0.8238987327756057
+  train_r2: 0.8548992565251174
+ElasticNet:
+  best_params:
+    alpha: 0.01
+    l1_ratio: 0.9
+    max_iter: 1000
+  test_r2: 0.8807554619884935
+  train_r2: 0.8742974597424238
+Gradient Boosting Regressor:
+  best_params:
+    learning_rate: 0.05
+    max_depth: 3
+    n_estimators: 100
+    subsample: 0.75
+  test_r2: 0.871340671342078
+  train_r2: 0.8884785282662551
+K-Neighbors Regressor:
+  best_params:
+    algorithm: auto
+    n_neighbors: 7
+    weights: distance
+  test_r2: 0.6286532050412489
+  train_r2: 0.9996534669718089
+Lasso:
+  best_params:
+    alpha: 0.01
+    max_iter: 1000
+  test_r2: 0.880699029591067
+  train_r2: 0.8743085265925317
+Linear Regression:
+  best_params: {}
+  test_r2: 0.8804332983749564
+  train_r2: 0.8743172040139593
+Random Forest Regressor:
+  best_params:
+    max_depth: 10
+    max_features: sqrt
+    min_samples_split: 2
+    n_estimators: 100
+  test_r2: 0.8111857283591093
+  train_r2: 0.9479265631817531
+Ridge:
+  best_params:
+    alpha: 0.1
+    solver: svd
+  test_r2: 0.8804459421436606
+  train_r2: 0.8743171178192345
+XGBRegressor:
+  best_params:
+    learning_rate: 0.1
+    max_depth: 3
+    n_estimators: 100
+  test_r2: 0.8644790844383055
+  train_r2: 0.9011091303734957
