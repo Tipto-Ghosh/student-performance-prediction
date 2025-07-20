@@ -1,15 +1,26 @@
-import os , sys , yaml
+import os
+import sys
+import yaml
+import mlflow
+import numpy as np
+from urllib.parse import urlparse
 from dataclasses import dataclass
-from sklearn.metrics import r2_score , mean_squared_error
+from sklearn.metrics import r2_score , mean_squared_error , mean_absolute_error
 from sklearn.model_selection import GridSearchCV
 from src.logger import logging
 from src.exception import CustomException
 from src.config.model_trainer_config import ModelTrainerConfig 
 from src.utils.common_utils import load_models , load_model_params
-from src.utils.common_utils import evaluate_models , save_object
+from src.utils.common_utils import evaluate_models , save_object , read_best_model_info
+from dotenv import load_dotenv 
+from src.utils.mlflow_utils import MLFlowLogger
+
+
+
 
 class ModelTrainer:
     def __init__(self):
+        load_dotenv()
         self.model_trainer_config = ModelTrainerConfig()
     
     def initiate_model_trainer(self , train_array , test_array): 
@@ -48,11 +59,17 @@ class ModelTrainer:
             model = models[best_model_name]
             param_grid = params.get(best_model_name, {})
             
-            gs = GridSearchCV(model, param_grid, cv = 3)
-            gs.fit(X_train, y_train)
-            
-            final_best_model = gs.best_estimator_
-            best_params = gs.best_params_
+            if not param_grid:
+                logging.warning(f"No param grid found for {best_model_name}. Using default model.")
+                model.fit(X_train, y_train)
+                final_best_model = model
+                best_params = {}
+            else:
+                gs = GridSearchCV(model, param_grid, cv = 3)
+                gs.fit(X_train, y_train)
+                
+                final_best_model = gs.best_estimator_
+                best_params = gs.best_params_
             
             # Save best model summary
             best_model_summary = {
@@ -62,26 +79,65 @@ class ModelTrainer:
                 "test_r2": r2_score(y_test, final_best_model.predict(X_test))
             }
             
-            summary_path = os.path.join("artifacts", "best_model_summary.yaml")
-            os.makedirs(os.path.dirname(summary_path), exist_ok=True)
+            ARTIFACTS_DIR = "artifacts"
+            os.makedirs(ARTIFACTS_DIR , exist_ok = True)
+            SUMMARY_PATH = os.path.join(ARTIFACTS_DIR , "best_model_summary.yaml")
+            os.makedirs(os.path.dirname(SUMMARY_PATH), exist_ok=True)
 
-            with open(summary_path, "w") as f:
+            with open(SUMMARY_PATH, "w") as f:
                 yaml.dump(best_model_summary, f)
 
-            logging.info(f"Best model summary saved to {summary_path}")
+            logging.info(f"Best model summary saved to {SUMMARY_PATH}")
             
             # Save the trained model object
             save_object(
-                file_path=self.model_trainer_config.trained_model_file_path,
-                obj=final_best_model
+                file_path = self.model_trainer_config.trained_model_file_path,
+                obj = final_best_model
             )
             logging.info(f"Best model object saved to {self.model_trainer_config.trained_model_file_path}")
             
             # Final R2 score on test set
             y_pred = final_best_model.predict(X_test)
-            r2_pred = r2_score(y_test, y_pred)
+            test_r2 = r2_score(y_test, y_pred)
+            mae = mean_absolute_error(y_test , y_pred)
+            rmse = np.sqrt(mean_squared_error(y_test , y_pred))
+            # Do the MLOPs codes
             
-            return r2_pred
+            
+            
+            tracking_url = os.getenv("dagshub_url")
+            username = os.getenv("dagshub_username")
+            token = os.getenv("dagshub_token")
+            
+            logging.info("Environment variables loaded from .env")
+            
+            if not tracking_url or not username or not token:
+                raise CustomException("Missing MLflow tracking credentials in .env")
+            
+            # Set MLflow tracking URI and credentials
+            os.environ["MLFLOW_TRACKING_USERNAME"] = username
+            os.environ["MLFLOW_TRACKING_PASSWORD"] = token
+            mlflow.set_tracking_uri(tracking_url)
+            
+            mlflow_logger = MLFlowLogger(tracking_uri = tracking_url , model_name = best_model_name)
+            
+            metrics = {
+                "R2 Score" : float(test_r2),
+                "MAE" : float(mae),
+                "RMSE" : float(rmse)
+            }
+            mlflow_logger.log_model(final_best_model , best_params , metrics)
+            
+            METRICES_PATH = os.path.join(ARTIFACTS_DIR , "metrics.yaml")
+            os.makedirs(os.path.dirname(METRICES_PATH), exist_ok = True)
+            
+            with open(METRICES_PATH, "w") as f:
+                yaml.dump(metrics, f)
+            
+            logging.info(f"Model metrics saved to {METRICES_PATH}")
+            logging.info(f"Final Model Evaluation -> R2: {test_r2}, MAE: {mae}, RMSE: {rmse}")
+
+            return test_r2
 
         except Exception as e:
             logging.error("Error occured in initiate_model_trainer." , exc_info = True)

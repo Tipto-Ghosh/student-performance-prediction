@@ -3,9 +3,9 @@ import sys
 import pickle
 import time
 import yaml
-import importlib
+import importlib , numpy as np
 from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import r2_score
+from sklearn.metrics import r2_score , mean_absolute_error , mean_squared_error
 from src.logger import logging
 from src.exception import CustomException
 
@@ -113,4 +113,31 @@ def evaluate_models(X_train, X_test, y_train, y_test, models, params):
         logging.error("Error Occurred in [evaluate_models] during training", exc_info=True)
         raise CustomException(e, sys)
 
- 
+def read_best_model_info(file_path):
+    """
+    Reads a YAML file and returns the best model name, parameters, and scores.
+
+    Parameters:
+        file_path (str): Path to the YAML file.
+
+    Returns:
+        dict: Dictionary with model name, parameters, and R2 scores.
+    """
+    with open(file_path, 'r') as file:
+        data = yaml.safe_load(file)
+
+    result = {
+        "best_model_name": data.get("best_model_name"),
+        "best_model_params": data.get("best_model_params", {}),
+        "train_r2": data.get("train_r2"),
+        "test_r2": data.get("test_r2")
+    }
+
+    return result
+
+def get_regression_metrices(y_true , y_pred):
+    r2 = r2_score(y_true , y_pred)
+    mae = mean_absolute_error(y_true , y_pred)
+    rmse = np.sqrt(mean_squared_error(y_true , y_pred))
+    
+    return r2 , mae , rmse

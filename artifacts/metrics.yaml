@@ -1,0 +1,19 @@
+MAE: 4.208602826555842
+R2 Score: 0.8807554619884935
+RMSE: !!python/object/apply:numpy._core.multiarray.scalar
+- !!python/object/apply:numpy.dtype
+  args:
+  - f8
+  - false
+  - true
+  state: !!python/tuple
+  - 3
+  - <
+  - null
+  - null
+  - null
+  - -1
+  - -1
+  - 0
+- !!binary |
+  I1N54QCMFUA=

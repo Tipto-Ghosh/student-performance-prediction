@@ -2,8 +2,8 @@ AdaBoost Regressor:
   best_params:
     learning_rate: 1.0
     n_estimators: 200
-  test_r2: 0.8496247852595247
-  train_r2: 0.8530981937123696
+  test_r2: 0.8525919434711453
+  train_r2: 0.8535678712396048
 CatBoosting Regressor:
   best_params:
     depth: 4
@@ -13,11 +13,11 @@ CatBoosting Regressor:
   train_r2: 0.8876352778558434
 Decision Tree:
   best_params:
-    criterion: squared_error
+    criterion: friedman_mse
     max_depth: 5
-    min_samples_split: 10
-  test_r2: 0.8238987327756057
-  train_r2: 0.8548992565251174
+    min_samples_split: 2
+  test_r2: 0.8242299188020519
+  train_r2: 0.8550110711822139
 ElasticNet:
   best_params:
     alpha: 0.01
@@ -31,8 +31,8 @@ Gradient Boosting Regressor:
     max_depth: 3
     n_estimators: 100
     subsample: 0.75
-  test_r2: 0.871340671342078
-  train_r2: 0.8884785282662551
+  test_r2: 0.8721742805337366
+  train_r2: 0.8875145518960447
 K-Neighbors Regressor:
   best_params:
     algorithm: auto
@@ -52,12 +52,12 @@ Linear Regression:
   train_r2: 0.8743172040139593
 Random Forest Regressor:
   best_params:
-    max_depth: 10
-    max_features: sqrt
+    max_depth: null
+    max_features: log2
     min_samples_split: 2
     n_estimators: 100
-  test_r2: 0.8111857283591093
-  train_r2: 0.9479265631817531
+  test_r2: 0.8175811146631944
+  train_r2: 0.9758994569006628
 Ridge:
   best_params:
     alpha: 0.1
