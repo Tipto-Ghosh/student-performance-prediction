@@ -1,6 +1,7 @@
 import os 
 import sys 
 import pickle
+import joblib
 import time
 import yaml
 import importlib , numpy as np
@@ -8,6 +9,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import r2_score , mean_absolute_error , mean_squared_error
 from src.logger import logging
 from src.exception import CustomException
+import mlflow.sklearn
 
 
 def load_yaml(path : str) -> dict:
@@ -141,3 +143,41 @@ def get_regression_metrices(y_true , y_pred):
     rmse = np.sqrt(mean_squared_error(y_true , y_pred))
     
     return r2 , mae , rmse
+
+
+import os
+import joblib
+import mlflow.sklearn
+import sys
+from src.exception import CustomException
+
+def load_object(file_path: str):
+    """
+    Load and return a model object from a given path.
+
+    If the path is a directory with MLflow model files, it loads via mlflow.
+    If the path is a .pkl file, it loads via joblib.
+
+    Args:
+        file_path (str): Path to the model or directory.
+
+    Returns:
+        Loaded model object
+    """
+    try:
+        if not os.path.exists(file_path):
+            raise FileNotFoundError(f"No file or directory found at: {file_path}")
+
+        if os.path.isdir(file_path) and os.path.exists(os.path.join(file_path, "MLmodel")):
+            # Load MLflow model from directory
+            return mlflow.sklearn.load_model(file_path)
+
+        elif file_path.endswith(".pkl"):
+            # Load joblib serialized model
+            return joblib.load(file_path)
+
+        else:
+            raise ValueError(f"Unsupported model path or format: {file_path}")
+    
+    except Exception as e:
+        raise CustomException(e, sys)
