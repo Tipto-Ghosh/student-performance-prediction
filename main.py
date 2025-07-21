@@ -1,4 +1,4 @@
-import sys 
+import sys , os
 from src.logger import logging 
 from src.exception import CustomException
 from src.components.data_ingestion import DataIngestion
@@ -8,64 +8,47 @@ from src.components.data_transformation import DataTransformationConfig
 from src.config.model_trainer_config import ModelTrainerConfig
 from src.components.model_trainer import ModelTrainer
 from src.pipelines.prediction_pipeline import CustomData , PredictPipeline
+from src.utils.common_utils import load_object
+
 
 if __name__ == "__main__":
-    # try:
-    #     a = 12 / 0 
-    # except ZeroDivisionError as zd:
-    #     logging.exception("Divided by zero")
-    #     raise CustomException(zd , sys)
     
-    # Do the Data Ingestion part
     try:
-        # data_ingestion = DataIngestion()
-        # train_data_path , test_data_path = data_ingestion.initiate_data_ingestion()
+        # Do the data ingestion
+        # data_ingest = DataIngestion()
+        # train_data_path , test_data_path = data_ingest.initiate_data_ingestion()
         
-        # data_transformation = DataTransformation()
-        # train_data , test_data , preprocessor_path =  data_transformation.initiate_data_transformation(
+        # logging.info("-----------Data Ingestion Completed-----------")
+        # logging.info(f"train_data_path type: {type(train_data_path)}")
+        # logging.info(F"test_data_path type: {type(test_data_path)}")
+        # logging.info("----------------------------------------------------")
+        
+        # # Do the data transformation
+        # logging.info("Data Transformation started")
+        # data_transform = DataTransformation()
+        # train_data , test_data , preprocessor_path = data_transform.initiate_data_transformation(
         #     train_data_path = train_data_path,
         #     test_data_path = test_data_path
         # )
+        # logging.info(f"Data Transformation done. [Train shape: {train_data.shape}] , test shape: {test_data.shape}")
         
-        # print(train_data.shape)
-        # print(test_data.shape)
-        # print(preprocessor_path)
+        # # Do the model training
+        # model_trainer = ModelTrainer()
+        # test_r2 = model_trainer.initiate_model_trainer(train_array = train_data , test_array = test_data)
+        # logging.info(f"Best Models R2 score: {test_r2}")
+        # print(f"Best Models R2 score: {test_r2}")
         
-        # models = load_models("src/config/models.yaml")
-        # params = load_model_params("src/config/params.yaml")
-        
-        # print(models.keys())
-        # print(params["Lasso"])
-        
-        # Data Ingestion
-        # data_ingestion = DataIngestion()
-        # train_data_path , test_data_path = data_ingestion.initiate_data_ingestion()
-        
-        # data_transformation = DataTransformation()
-        # train_data , test_data , preprocessor_path =  data_transformation.initiate_data_transformation(
-        #     train_data_path = train_data_path,
-        #     test_data_path = test_data_path
-        # )
-        
-        # print(type(train_data))
-        # print(train_data.shape)
-        
-        # print(type(test_data))
-        # print(test_data.shape)
-        
-      
+        model = load_object("artifacts/model.pkl")
+        print(type(model))
         
         
-        # model_training = ModelTrainer()
-        # r2_pred = model_training.initiate_model_trainer(train_array = train_data , test_array = test_data)
-        # print(f"Best model r2 score: {r2_pred}")
         
         
         # Let's predict a single row
         test = CustomData(
            gender = 'female',
            race_ethnicity_group = 'group B',
-           parental_level_of_education = 'bachelor',
+           parental_level_of_education = 'some high school',
            lunch = 'standard',
            test_preparation_course = 'none',
            reading_score = 72,

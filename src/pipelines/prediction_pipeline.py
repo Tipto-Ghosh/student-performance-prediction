@@ -11,7 +11,7 @@ from src.utils.common_utils import load_object
 from src.logger import logging
 
 
-MODEL_PATH = "artifacts/model"
+MODEL_PATH = "artifacts/model.pkl"
 PREPROCESSOR_PATH = "artifacts/preprocessor.pkl"
 
 class PredictPipeline:

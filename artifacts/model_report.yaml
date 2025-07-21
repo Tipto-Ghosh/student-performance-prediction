@@ -2,8 +2,8 @@ AdaBoost Regressor:
   best_params:
     learning_rate: 1.0
     n_estimators: 200
-  test_r2: 0.8525919434711453
-  train_r2: 0.8535678712396048
+  test_r2: 0.8553177291166532
+  train_r2: 0.8526810803241758
 CatBoosting Regressor:
   best_params:
     depth: 4
@@ -31,8 +31,8 @@ Gradient Boosting Regressor:
     max_depth: 3
     n_estimators: 100
     subsample: 0.75
-  test_r2: 0.8721742805337366
-  train_r2: 0.8875145518960447
+  test_r2: 0.8679379593722703
+  train_r2: 0.888382463884605
 K-Neighbors Regressor:
   best_params:
     algorithm: auto
@@ -56,8 +56,8 @@ Random Forest Regressor:
     max_features: log2
     min_samples_split: 2
     n_estimators: 100
-  test_r2: 0.8175811146631944
-  train_r2: 0.9758994569006628
+  test_r2: 0.8115137200796184
+  train_r2: 0.9753054858329178
 Ridge:
   best_params:
     alpha: 0.1
