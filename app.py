@@ -25,7 +25,7 @@ def predict():
 
             data = CustomData(
                 gender=gender,
-                race_ethnicity=race_ethnicity,
+                race_ethnicity_group = race_ethnicity,
                 parental_level_of_education=parental_education,
                 lunch=lunch,
                 test_preparation_course=test_preparation_course,
@@ -33,9 +33,9 @@ def predict():
                 writing_score=writing_score
             )
 
-            # pred_df = data.get_data_as_data_frame()
-            # predict_pipeline = PredictPipeline()
-            # prediction = predict_pipeline.predict(pred_df)[0]  # get scalar
+            pred_df = data.get_data_as_data_frame()
+            predict_pipeline = PredictPipeline()
+            prediction = predict_pipeline.predict(pred_df)[0]  # get scalar
 
             print(f"Prediction Result: {prediction}")
 
@@ -53,7 +53,7 @@ def predict():
             print("Error during prediction:", str(e))
 
     # Initial GET request
-    return render_template("index.html", prediction=None)
+    return render_template("index.html", prediction = prediction)
 
 if __name__ == "__main__":
     app.run(debug = True)
