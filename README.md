@@ -14,7 +14,7 @@ The goal is to build a regression model that accurately predicts student final p
 
 | Category            | Tools/Libraries                 |
 | ------------------- | ------------------------------- |
-| Programming         | Python 3.x                      |
+| Programming         | Python 3.11.4                   |
 | Data Manipulation   | pandas, numpy                   |
 | Visualization       | matplotlib, seaborn             |
 | Model Development   | scikit-learn, xgboost, catboost |
