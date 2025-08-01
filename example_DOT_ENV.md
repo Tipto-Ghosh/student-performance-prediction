@@ -1,25 +1,32 @@
-### Make the .env file in the same location where this file is.
+# 🔐 Environment Setup Guide
+
+Make sure to create a `.env` file in the **same directory** as this file to configure the environment variables required to run the project.
 
 ## Database Configuration
-host = "your_database_host"             # e.g., "localhost" </br>
-user = "your_database_user"             # e.g., "root" </br>
-password = "your_database_password"     # e.g., "your_db_password" </br>
-databaseName = "your_database_name"     # e.g., "studentPerformance" </br>
-datatable = "your_table_name"           # e.g., "students" </br>
+
+```
+host = "localhost"
+user = "mySql username"
+password = "password"
+databaseName = "studentPerformance" # example database name
+datatable = "students" # example database table
+```
 
 ## DagsHub Integration
-dagshub_url = "your_dagshub_repo_url"   # e.g., "https://dagshub.com/username/repo-name.mlflow" </br>
-dagshub_username = "your_dagshub_username" </br>
-dagshub_token = "your_dagshub_token" </br>
 
+```
+dagshub_url = "https://dagshub.com/yourusername/student-performance-prediction.mlflow" # your dagshub_url
+dagshub_username = "your username"
+dagshub_token = "your_dagshub_token"
+```
 
-**Instructions**
-1. Copy this content into a new file named .env at the root of your project directory.
+---
 
-2. Replace all placeholder values with your actual credentials.
+## 📜 Instructions
 
-3. Never commit your .env file to version control (it’s already listed in .gitignore by default).
+1. Copy the above content into a new file named `.env` in this same directory.
+2. Replace `your_dagshub_token` with your actual token.
+3. Do **not** commit the `.env` file to version control. Ensure `.gitignore` includes `.env`.
+4. Keep your DagsHub token safe. Regenerate it if it gets leaked or exposed.
 
-4. Keep your dagshub_token secure and regenerate it if it gets exposed.
-
-5. Replace all the lines that i gave here just keep `Database Configuration` and `## DagsHub Integration` with proper values.
+---
