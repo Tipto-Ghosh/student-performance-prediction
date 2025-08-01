@@ -33,9 +33,9 @@ def predict():
                 writing_score=writing_score
             )
 
-            pred_df = data.get_data_as_data_frame()
-            predict_pipeline = PredictPipeline()
-            prediction = predict_pipeline.predict(pred_df)[0]  # get scalar
+            # pred_df = data.get_data_as_data_frame()
+            # predict_pipeline = PredictPipeline()
+            # prediction = predict_pipeline.predict(pred_df)[0]  # get scalar
 
             print(f"Prediction Result: {prediction}")
 
