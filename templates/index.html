@@ -3,9 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tipto's Student Score Predictor</title>
+  <title>🎓 Student Performance Predictor | AI-Powered Score Prediction</title>
+  <meta name="description" content="Predict student math scores using advanced AI models. Input demographic and academic data for accurate performance predictions.">
+  
+  <!-- Preconnect to Google Fonts for better performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  
   <!-- Custom CSS -->
   <link rel="stylesheet" href="static/css/style.css">
 </head>
@@ -14,91 +24,194 @@
   <div class="overlay"></div>
 
   <div class="container mt-5 content">
-    <h1 class="text-center mb-4">🎓 Student Performance Predictor</h1>
+    <h1 class="text-center mb-4">
+      <i class="fas fa-graduation-cap me-3"></i>
+      Student Performance Predictor
+    </h1>
+    <p class="text-center text-muted mb-5">
+      <i class="fas fa-chart-line me-2"></i>
+      Predict math scores using advanced AI models with demographic and academic data
+    </p>
 
-    <form method="POST" action="/">
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="gender">Gender</label>
-          <select class="form-control" name="gender" required>
-            <option disabled selected>Select gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
+    <form method="POST" action="/" id="predictionForm">
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="gender" class="form-label">
+              <i class="fas fa-user me-2"></i>Gender
+            </label>
+            <select class="form-control form-select" name="gender" id="gender" required>
+              <option disabled {% if not selected_gender %}selected{% endif %}>Select gender</option>
+              <option value="male" {% if selected_gender == 'male' %}selected{% endif %}>👨 Male</option>
+              <option value="female" {% if selected_gender == 'female' %}selected{% endif %}>👩 Female</option>
+            </select>
+          </div>
         </div>
 
-        <div class="form-group col-md-6">
-          <label for="race_ethnicity">Race/Ethnicity</label>
-          <select class="form-control" name="race_ethnicity" required>
-            <option disabled selected>Select group</option>
-            <option value="group A">Group A</option>
-            <option value="group B">Group B</option>
-            <option value="group C">Group C</option>
-            <option value="group D">Group D</option>
-            <option value="group E">Group E</option>
-          </select>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="race_ethnicity" class="form-label">
+              <i class="fas fa-users me-2"></i>Race/Ethnicity
+            </label>
+            <select class="form-control form-select" name="race_ethnicity_group" id="race_ethnicity" required>
+              <option disabled {% if not selected_race_ethnicity %}selected{% endif %}>Select ethnic group</option>
+              <option value="group A" {% if selected_race_ethnicity == 'group A' %}selected{% endif %}>🟦 Group A</option>
+              <option value="group B" {% if selected_race_ethnicity == 'group B' %}selected{% endif %}>🟩 Group B</option>
+              <option value="group C" {% if selected_race_ethnicity == 'group C' %}selected{% endif %}>🟨 Group C</option>
+              <option value="group D" {% if selected_race_ethnicity == 'group D' %}selected{% endif %}>🟧 Group D</option>
+              <option value="group E" {% if selected_race_ethnicity == 'group E' %}selected{% endif %}>🟪 Group E</option>
+            </select>
+          </div>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="parental_level_of_education">Parental Level of Education</label>
-        <select class="form-control" name="parental_level_of_education" required>
-          <option disabled selected>Select education</option>
-          <option value="master's degree">Master's Degree</option>
-          <option value="bachelor's degree">Bachelor's Degree</option>
-          <option value="associate's degree">Associate's Degree</option>
-          <option value="some college">Some College</option>
-          <option value="some high school">Some High School</option>
-          <option value="high school">High School</option>
+        <label for="parental_level_of_education" class="form-label">
+          <i class="fas fa-graduation-cap me-2"></i>Parental Level of Education
+        </label>
+        <select class="form-control form-select" name="parental_level_of_education" id="parental_level_of_education" required>
+          <option disabled {% if not selected_parental_education %}selected{% endif %}>Select education level</option>
+          <option value="master's degree" {% if selected_parental_education == "master's degree" %}selected{% endif %}>🎓 Master's Degree</option>
+          <option value="bachelor's degree" {% if selected_parental_education == "bachelor's degree" %}selected{% endif %}>🎓 Bachelor's Degree</option>
+          <option value="associate's degree" {% if selected_parental_education == "associate's degree" %}selected{% endif %}>📜 Associate's Degree</option>
+          <option value="some college" {% if selected_parental_education == "some college" %}selected{% endif %}>📚 Some College</option>
+          <option value="high school" {% if selected_parental_education == "high school" %}selected{% endif %}>🏫 High School</option>
+          <option value="some high school" {% if selected_parental_education == "some high school" %}selected{% endif %}>📖 Some High School</option>
         </select>
       </div>
 
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="lunch">Lunch Type</label>
-          <select class="form-control" name="lunch" required>
-            <option disabled selected>Select lunch type</option>
-            <option value="standard">Standard</option>
-            <option value="free/reduced">Free/Reduced</option>
-          </select>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="lunch" class="form-label">
+              <i class="fas fa-utensils me-2"></i>Lunch Type
+            </label>
+            <select class="form-control form-select" name="lunch" id="lunch" required>
+              <option disabled {% if not selected_lunch %}selected{% endif %}>Select lunch type</option>
+              <option value="standard" {% if selected_lunch == 'standard' %}selected{% endif %}>🍽️ Standard</option>
+              <option value="free/reduced" {% if selected_lunch == 'free/reduced' %}selected{% endif %}>🆓 Free/Reduced</option>
+            </select>
+          </div>
         </div>
 
-        <div class="form-group col-md-6">
-          <label for="test_preparation_course">Test Preparation</label>
-          <select class="form-control" name="test_preparation_course" required>
-            <option disabled selected>Preparation done?</option>
-            <option value="completed">Yes</option>
-            <option value="none">No</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="reading_score">Reading Score</label>
-          <input type="number" class="form-control" name="reading_score" min="0" max="100" placeholder="0 - 100" required>
-        </div>
-
-        <div class="form-group col-md-6">
-          <label for="writing_score">Writing Score</label>
-          <input type="number" class="form-control" name="writing_score" min="0" max="100" placeholder="0 - 100" required>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="test_preparation_course" class="form-label">
+              <i class="fas fa-book-open me-2"></i>Test Preparation
+            </label>
+            <select class="form-control form-select" name="test_preparation_course" id="test_preparation_course" required>
+              <option disabled {% if not selected_test_preparation %}selected{% endif %}>Test preparation completed?</option>
+              <option value="completed" {% if selected_test_preparation == 'completed' %}selected{% endif %}>✅ Yes, Completed</option>
+              <option value="none" {% if selected_test_preparation == 'none' %}selected{% endif %}>❌ No Preparation</option>
+            </select>
+          </div>
         </div>
       </div>
 
-      <button type="submit" class="btn btn-primary btn-block">Predict Math Score</button>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="reading_score" class="form-label">
+              <i class="fas fa-book me-2"></i>Reading Score
+            </label>
+            <div class="input-group">
+              <input type="number" class="form-control" name="reading_score" id="reading_score" 
+                     min="0" max="100" placeholder="Enter score (0-100)" 
+                     value="{{ selected_reading_score if selected_reading_score else '' }}" required>
+              <span class="input-group-text">📖</span>
+            </div>
+            <div class="form-text">Score range: 0 - 100</div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="writing_score" class="form-label">
+              <i class="fas fa-pen me-2"></i>Writing Score
+            </label>
+            <div class="input-group">
+              <input type="number" class="form-control" name="writing_score" id="writing_score" 
+                     min="0" max="100" placeholder="Enter score (0-100)" 
+                     value="{{ selected_writing_score if selected_writing_score else '' }}" required>
+              <span class="input-group-text">✍️</span>
+            </div>
+            <div class="form-text">Score range: 0 - 100</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-grid gap-2 mt-4">
+        <button type="submit" class="btn btn-primary btn-lg" id="predictBtn">
+          <i class="fas fa-magic me-2"></i>
+          <span class="btn-text">Predict Math Score</span>
+        </button>
+      </div>
     </form>
 
-    <div class="card mt-4 result-card" style="display: none;">
+    <div class="card mt-4 result-card" id="resultCard" {% if prediction is not none %}style="display: block;"{% else %}style="display: none;"{% endif %}>
       <div class="card-body text-center">
-        <h4 class="card-title">📊 Predicted Math Score</h4>
-        <h2 class="text-success" id="predicted-score"></h2>
+        <h4 class="card-title">
+          <i class="fas fa-chart-bar me-2"></i>
+          Predicted Math Score
+        </h4>
+        {% if prediction is not none %}
+          <h2 class="text-success mb-3" id="predicted-score">{{ "%.1f"|format(prediction) }}</h2>
+          <div class="progress mb-3" style="height: 10px;">
+            <div class="progress-bar bg-success" role="progressbar" id="scoreProgress" style="width: {{ prediction|round(1) }}%;"></div>
+          </div>
+        {% else %}
+          <h2 class="text-success mb-3" id="predicted-score">--</h2>
+          <div class="progress mb-3" style="height: 10px;">
+            <div class="progress-bar bg-success" role="progressbar" id="scoreProgress" style="width: 0%;"></div>
+          </div>
+        {% endif %}
+        <p class="text-muted mb-0">
+          <i class="fas fa-info-circle me-1"></i>
+          Prediction based on AI analysis of academic and demographic factors
+        </p>
       </div>
     </div>
   </div>
 
-  <!-- Bootstrap JS, Popper.js, and jQuery -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWGaBxGEzfuPmKjISu" crossorigin="anonymous"></script>
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  
+  <!-- Custom JavaScript for enhanced UX -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('predictionForm');
+      const predictBtn = document.getElementById('predictBtn');
+      const resultCard = document.getElementById('resultCard');
+      const btnText = predictBtn.querySelector('.btn-text');
+      
+      // Add loading state to button
+      form.addEventListener('submit', function(e) {
+        predictBtn.classList.add('btn-loading');
+        btnText.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Predicting...';
+        predictBtn.disabled = true;
+      });
+      
+      // Add input validation feedback
+      const inputs = form.querySelectorAll('input[type="number"]');
+      inputs.forEach(input => {
+        input.addEventListener('input', function() {
+          const value = parseInt(this.value);
+          if (value < 0 || value > 100) {
+            this.classList.add('is-invalid');
+          } else {
+            this.classList.remove('is-invalid');
+            this.classList.add('is-valid');
+          }
+        });
+      });
+      
+      // Smooth scroll to result if it exists
+      if (resultCard.style.display !== 'none') {
+        setTimeout(() => {
+          resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 500);
+      }
+    });
+  </script>
 </body>
 </html>
